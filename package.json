@@ -2,10 +2,9 @@
   "name": "crud-app",
   "version": "3.3.0",
   "private": true,
-  "homepage": "https://safdarjamal.github.io/crud-app/",
   "author": {
-    "name": "Safdar Jamal",
-    "url": "https://safdarjamal.github.io"
+    "name": "Kush Munot",
+    "url": "https://github.com/Kush-munot"
   },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
