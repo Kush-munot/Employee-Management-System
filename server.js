@@ -10,3 +10,12 @@ const con = mongoose.connection
 con.on('open', (req, res) => {
     console.log("Connected to the DB");
 })
+
+app.use(express.json())
+
+const employeeRouter = require('./routes/employee')
+app.use('/employees', employeeRouter)
+
+app.listen(8090, () => {
+    console.log("Server Started !!");
+})
