@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
-
+import axios from 'axios'
 import Header from './Header';
 import Table from './Table';
 import Add from './Add';
@@ -36,19 +36,17 @@ const Dashboard = ({ setIsAuthenticated }) => {
       cancelButtonText: 'No, cancel!',
     }).then(result => {
       if (result.value) {
-        const [employee] = employees.filter(employee => employee.id === id);
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Deleted!',
-          text: `${employee.firstName} ${employee.lastName}'s data has been deleted.`,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        const employeesCopy = employees.filter(employee => employee.id !== id);
-        localStorage.setItem('employees_data', JSON.stringify(employeesCopy));
-        setEmployees(employeesCopy);
+        axios.delete(`http://localhost:8090/employees/${id}`).then(() => {
+          console.log(result);
+          Swal.fire({
+            icon: 'success',
+            title: 'Deleted!',
+            text: `Data has been deleted.`,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          window.location.reload(false);
+        })
       }
     });
   };
