@@ -1,52 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios'
+
+/* Swal.fire({
+  icon: 'success',
+  title: 'Added!',
+  text: `Data has been Added.`,
+  showConfirmButton: false,
+  timer: 1500,
+});
+ */
 
 const Add = ({ employees, setEmployees, setIsAdding }) => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [salary, setSalary] = useState('');
-  const [date, setDate] = useState('');
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [dateOfJoining, setDateOfJoining] = useState('')
+  const [salary, setSalary] = useState(0)
 
-  const handleAdd = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    if (!firstName || !lastName || !email || !salary || !date) {
-      return Swal.fire({
-        icon: 'error',
-        title: 'Error!',
-        text: 'All fields are required.',
-        showConfirmButton: true,
-      });
-    }
-
-    const id = employees.length + 1;
-    const newEmployee = {
-      id,
+    axios.post('http://localhost:8090/employees', {
       firstName,
       lastName,
       email,
       salary,
-      date,
-    };
-
-    employees.push(newEmployee);
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
-    setIsAdding(false);
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Added!',
-      text: `${firstName} ${lastName}'s data has been Added.`,
-      showConfirmButton: false,
-      timer: 1500,
-    });
-  };
+      dateOfJoining
+    }).then((res) => {
+      console.log(res)
+      Swal.fire({
+        icon: 'success',
+        title: 'Added!',
+        text: `Data has been Added.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
 
   return (
     <div className="small-container">
-      <form onSubmit={handleAdd}>
+      <form onSubmit={handleSubmit}>
         <h1>Add Employee</h1>
         <label htmlFor="firstName">First Name</label>
         <input
@@ -54,7 +50,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           type="text"
           name="firstName"
           value={firstName}
-          onChange={e => setFirstName(e.target.value)}
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <label htmlFor="lastName">Last Name</label>
         <input
@@ -62,7 +58,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           type="text"
           name="lastName"
           value={lastName}
-          onChange={e => setLastName(e.target.value)}
+          onChange={(e) => setLastName(e.target.value)}
         />
         <label htmlFor="email">Email</label>
         <input
@@ -70,7 +66,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           type="email"
           name="email"
           value={email}
-          onChange={e => setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <label htmlFor="salary">Salary ($)</label>
         <input
@@ -78,15 +74,15 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
           type="number"
           name="salary"
           value={salary}
-          onChange={e => setSalary(e.target.value)}
+          onChange={(e) => setSalary(e.target.value)}
         />
         <label htmlFor="date">Date</label>
         <input
           id="date"
           type="date"
-          name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          name="dateOfJoining"
+          value={dateOfJoining}
+          onChange={(e) => setDateOfJoining(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Add" />

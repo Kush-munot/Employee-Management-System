@@ -1,19 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import axios from 'axios'
 
 const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
-  const id = selectedEmployee.id;
+  const [firstName, setFirstName] = useState('');
+  const [_id, set_id] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [salary, setSalary] = useState(0);
+  const [dateOfJoining, setDateOfJoining] = useState('');
 
-  const [firstName, setFirstName] = useState(selectedEmployee.firstName);
-  const [lastName, setLastName] = useState(selectedEmployee.lastName);
-  const [email, setEmail] = useState(selectedEmployee.email);
-  const [salary, setSalary] = useState(selectedEmployee.salary);
-  const [date, setDate] = useState(selectedEmployee.date);
+  useEffect(() => {
+    setFirstName(localStorage.getItem('firstName'))
+    set_id(localStorage.getItem('_id'))
+    setLastName(localStorage.getItem('lastName'))
+    setEmail(localStorage.getItem('email'))
+    setSalary(localStorage.getItem('salary'))
+    setDateOfJoining(localStorage.getItem('dateOfJoining'))
+    set_id(localStorage.getItem('_id'))
+  }, [])
 
-  const handleUpdate = e => {
-    e.preventDefault();
+  const handleUpdate = (e) => {
+    e.preventDefault();   
 
-    if (!firstName || !lastName || !email || !salary || !date) {
+    if (!firstName || !lastName || !email || !salary || !dateOfJoining) {
       return Swal.fire({
         icon: 'error',
         title: 'Error!',
@@ -22,30 +32,30 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    const employee = {
-      id,
-      firstName,
-      lastName,
-      email,
-      salary,
-      date,
-    };
+    axios.patch(`http://localhost:8090/employees/${_id}`, {
+      firstName: firstName,
+      lastName: lastName,
+      salary: salary,
+      email: email,
+      dateOfJoining: dateOfJoining
+    }).then((res) => {
+      console.log(res)
 
-    for (let i = 0; i < employees.length; i++) {
-      if (employees[i].id === id) {
-        employees.splice(i, 1, employee);
-        break;
-      }
-    }
-
-    localStorage.setItem('employees_data', JSON.stringify(employees));
-    setEmployees(employees);
-    setIsEditing(false);
+      Swal.fire({
+        icon: 'success',
+        title: 'Updated!',
+        text: `Data has been updated.`,
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }).catch((err) => {
+      console.log(err)
+    })
 
     Swal.fire({
       icon: 'success',
       title: 'Updated!',
-      text: `${employee.firstName} ${employee.lastName}'s data has been updated.`,
+      text: `Data has been updated.`,
       showConfirmButton: false,
       timer: 1500,
     });
@@ -92,8 +102,8 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
           id="date"
           type="date"
           name="date"
-          value={date}
-          onChange={e => setDate(e.target.value)}
+          value={dateOfJoining}
+          onChange={e => setDateOfJoining(e.target.value)}
         />
         <div style={{ marginTop: '30px' }}>
           <input type="submit" value="Update" />

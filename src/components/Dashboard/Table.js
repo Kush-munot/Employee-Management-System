@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
 
 const Table = ({ employees, handleEdit, handleDelete }) => {
   employees.forEach((employee, i) => {
@@ -10,6 +11,31 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
     currency: 'USD',
     minimumFractionDigits: null,
   });
+
+  const [myData, setMyData] = useState([]);
+  const [isError, setIsError] = useState("");
+
+  const getMyPostData = async () => {
+    try {
+      const res = await axios.get("http://localhost:8090/employees");
+      setMyData(res.data);
+    } catch (error) {
+      setIsError(error.message);
+    }
+  };
+
+  const setDataToStorage = (_id, firstName, lastName, email, salary, dateOfJoining) => {
+    localStorage.setItem("firstName",firstName);
+    localStorage.setItem("_id",_id);
+    localStorage.setItem("lastName",lastName);
+    localStorage.setItem("email",email);
+    localStorage.setItem("salary",salary);
+    localStorage.setItem("dateOfJoining",dateOfJoining);
+  }
+
+  useEffect(() => {
+    getMyPostData();
+  }, []);
 
   return (
     <div className="contain-table">
@@ -28,18 +54,18 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
           </tr>
         </thead>
         <tbody>
-          {employees.length > 0 ? (
-            employees.map((employee, i) => (
+          {myData.length > 0 ? (
+            myData.map((employee, i) => (
               <tr key={employee.id}>
                 <td>{i + 1}</td>
                 <td>{employee.firstName}</td>
                 <td>{employee.lastName}</td>
                 <td>{employee.email}</td>
                 <td>{formatter.format(employee.salary)}</td>
-                <td>{employee.date} </td>
+                <td>{employee.dateOfJoining} </td>
                 <td className="text-right">
                   <button
-                    onClick={() => handleEdit(employee.id)}
+                    onClick={() => {setDataToStorage(employee._id, employee.firstName, employee.lastName, employee.email, employee.salary, employee.dateOfJoining); handleEdit(employee.id)}}
                     className="button muted-button"
                   >
                     Edit
