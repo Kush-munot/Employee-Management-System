@@ -17,7 +17,7 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
 
   const getMyPostData = async () => {
     try {
-      const res = await axios.get("http://localhost:8090/employees");
+      const res = await axios.get("https://jungle-green-cobra-gown.cyclic.app/employees");
       setMyData(res.data);
     } catch (error) {
       setIsError(error.message);
@@ -25,12 +25,12 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
   };
 
   const setDataToStorage = (_id, firstName, lastName, email, salary, dateOfJoining) => {
-    localStorage.setItem("firstName",firstName);
-    localStorage.setItem("_id",_id);
-    localStorage.setItem("lastName",lastName);
-    localStorage.setItem("email",email);
-    localStorage.setItem("salary",salary);
-    localStorage.setItem("dateOfJoining",dateOfJoining);
+    localStorage.setItem("firstName", firstName);
+    localStorage.setItem("_id", _id);
+    localStorage.setItem("lastName", lastName);
+    localStorage.setItem("email", email);
+    localStorage.setItem("salary", salary);
+    localStorage.setItem("dateOfJoining", dateOfJoining);
   }
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Table = ({ employees, handleEdit, handleDelete }) => {
                 <td>{employee.dateOfJoining} </td>
                 <td className="text-right">
                   <button
-                    onClick={() => {setDataToStorage(employee._id, employee.firstName, employee.lastName, employee.email, employee.salary, employee.dateOfJoining); handleEdit(employee.id)}}
+                    onClick={() => { setDataToStorage(employee._id, employee.firstName, employee.lastName, employee.email, employee.salary, employee.dateOfJoining); handleEdit(employee.id) }}
                     className="button muted-button"
                   >
                     Edit

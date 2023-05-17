@@ -36,7 +36,7 @@ const Dashboard = ({ setIsAuthenticated }) => {
       cancelButtonText: 'No, cancel!',
     }).then(result => {
       if (result.value) {
-        axios.delete(`http://localhost:8090/employees/${id}`).then(() => {
+        axios.delete(`https://jungle-green-cobra-gown.cyclic.app/employees/${id}`).then(() => {
           console.log(result);
           Swal.fire({
             icon: 'success',

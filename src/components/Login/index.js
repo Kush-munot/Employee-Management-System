@@ -5,8 +5,8 @@ const Login = ({ setIsAuthenticated }) => {
   const adminEmail = 'admin@example.com';
   const adminPassword = 'qwerty';
 
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('qwerty');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleLogin = e => {
     e.preventDefault();
@@ -58,7 +58,7 @@ const Login = ({ setIsAuthenticated }) => {
           id="email"
           type="email"
           name="email"
-          placeholder="admin@example.com"
+          placeholder="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
@@ -67,7 +67,7 @@ const Login = ({ setIsAuthenticated }) => {
           id="password"
           type="password"
           name="password"
-          placeholder="qwerty"
+          placeholder="password"
           value={password}
           onChange={e => setPassword(e.target.value)}
         />

@@ -20,7 +20,7 @@ const Add = ({ employees, setEmployees, setIsAdding }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8090/employees', {
+    axios.post('https://jungle-green-cobra-gown.cyclic.app/employees', {
       firstName,
       lastName,
       email,

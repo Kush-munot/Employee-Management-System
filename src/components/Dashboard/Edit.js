@@ -21,7 +21,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
   }, [])
 
   const handleUpdate = (e) => {
-    e.preventDefault();   
+    e.preventDefault();
 
     if (!firstName || !lastName || !email || !salary || !dateOfJoining) {
       return Swal.fire({
@@ -32,7 +32,7 @@ const Edit = ({ employees, selectedEmployee, setEmployees, setIsEditing }) => {
       });
     }
 
-    axios.patch(`http://localhost:8090/employees/${_id}`, {
+    axios.patch(`https://jungle-green-cobra-gown.cyclic.app/employees/${_id}`, {
       firstName: firstName,
       lastName: lastName,
       salary: salary,
